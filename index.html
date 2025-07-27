@@ -5,14 +5,58 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      padding: 30px;
+      padding: 0;
+      margin: 0;
       background: #f2f2f2;
+    }
+    nav {
+      background-color: #4CAF50;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: white;
+    }
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #fff;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+    .dropdown-content a {
+      color: #333;
+      padding: 10px 12px;
+      text-decoration: none;
+      display: block;
+    }
+    .dropdown-content a:hover {
+      background-color: #f1f1f1;
+    }
+    .dropdown:hover .dropdown-content {
+      display: block;
     }
     .card {
       background: #fff;
       padding: 20px;
       max-width: 700px;
-      margin: auto;
+      margin: 30px auto;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
@@ -52,16 +96,37 @@
       margin-top: 40px;
       font-size: 14px;
       color: #666;
+      padding-bottom: 20px;
     }
   </style>
 </head>
 <body>
-<div style="text-align: center; margin-bottom: 20px;">
+
+<nav>
+  <div class="nav-links">
+    <a href="#form">Scholarship Checker</a>
+    <div class="dropdown">
+      <a>Scholarship Links ▼</a>
+      <div class="dropdown-content">
+        <a href="https://svmcm.wb.gov.in/" target="_blank">SVMCM</a>
+        <a href="https://oasis.gov.in/" target="_blank">OASIS</a>
+        <a href="https://wbmdfcscholarship.in/" target="_blank">Aikyashree</a>
+        <a href="https://scholarships.gov.in/" target="_blank">NSP</a>
+      </div>
+    </div>
+    <a href="#downloads">Download Format</a>
+  </div>
+</nav>
+
+<div style="text-align: center; margin-top: 30px;">
   <img src="logo.png" alt="UGP Logo" style="max-height: 200px;">
 </div>
-  
-<div class="card">
+
+<div class="card" id="form">
   <h2>Uluberia Government Polytechnic Scholarship Checker</h2>
+
+  <!-- form fields remain unchanged -->
+  <!-- [Keep the rest of your existing form HTML here, unchanged] -->
 
   <label for="name">Your Name:</label>
   <input type="text" id="name">
@@ -132,76 +197,82 @@
   <div class="documents" id="documents"></div>
 </div>
 
+<div class="card" id="downloads">
+  <h3>Download Format</h3>
+  <p>Coming soon... (you can upload and link formats like Income Certificate, Year Gap Certificate, etc.)</p>
+</div>
+
 <footer>
   Developed by @rnab (<a href="mailto:arnab.bera15@gmail.com">arnab.bera15@gmail.com</a>)
 </footer>
 
 <script>
-function checkScholarship() {
-  const admission = document.getElementById('admission').value;
-  const gender = document.getElementById('gender').value;
-  const religion = document.getElementById('religion').value;
-  const category = document.getElementById('category').value;
-  const marks10 = document.getElementById('marks10').value;
-  const marks12 = document.getElementById('marks12').value;
-  const passyear10 = document.getElementById('passyear10').value;
-  const result = document.getElementById('result');
-  const documents = document.getElementById('documents');
+  // [Keep your checkScholarship() JavaScript code here exactly as it is]
+  function checkScholarship() {
+    const admission = document.getElementById('admission').value;
+    const gender = document.getElementById('gender').value;
+    const religion = document.getElementById('religion').value;
+    const category = document.getElementById('category').value;
+    const marks10 = document.getElementById('marks10').value;
+    const marks12 = document.getElementById('marks12').value;
+    const passyear10 = document.getElementById('passyear10').value;
+    const result = document.getElementById('result');
+    const documents = document.getElementById('documents');
 
-  let scholarship = "No suitable scholarship.";
-  let docList = "";
+    let scholarship = "No suitable scholarship.";
+    let docList = "";
 
-  if (passyear10 === "before2022") {
-    result.textContent = `Most suitable scholarship: ${scholarship}`;
-    documents.textContent = "";
-    return;
-  }
-
-  if (admission === "lateral") {
-    if (marks12 === "80-100" || marks12 === "60-79") {
-      scholarship = "SVMCM (Swami Vivekananda Merit-cum-Means Scholarship)";
-      docList = "1) 10th marksheet<br>2) 12th marksheet (optional)<br>3) College admission receipt<br>4) BDO income certificate<br>5) Year gap certificate (if needed)";
-    } else if (marks12 === "50-59") {
-      if (religion !== "hindu") {
-        scholarship = "Aikyashree";
-        docList = "1) Bank account details<br>2) 10th marksheet";
-      } else {
-        if (category === "sc" || category === "st" || category === "obc") {
-          scholarship = "OASIS Scholarship";
-          docList = "1) 10th marksheet<br>2) College admission receipt<br>3) BDO income certificate<br>4) Residential proof - Aadhar card";
-        }
-      }
+    if (passyear10 === "before2022") {
+      result.textContent = `Most suitable scholarship: ${scholarship}`;
+      documents.textContent = "";
+      return;
     }
-  } else if (admission === "1st") {
-    if (gender === "female") {
-      if (marks10 === "80-100" || marks12 === "80-100") {
-        scholarship = "NSP-Pragati";
-      } else if (marks10 === "60-79") {
-        scholarship = "SVMCM - With Year Gap Certificate";
+
+    if (admission === "lateral") {
+      if (marks12 === "80-100" || marks12 === "60-79") {
+        scholarship = "SVMCM (Swami Vivekananda Merit-cum-Means Scholarship)";
         docList = "1) 10th marksheet<br>2) 12th marksheet (optional)<br>3) College admission receipt<br>4) BDO income certificate<br>5) Year gap certificate (if needed)";
-      } else if (marks10 === "50-59" && (category === "sc" || category === "st" || category === "obc")) {
-        scholarship = "OASIS Scholarship";
-        docList = "1) 10th marksheet<br>2) College admission receipt<br>3) BDO income certificate<br>4) Residential proof - Aadhar card";
-      }
-    } else if (gender === "male") {
-      if (marks10 === "60-79" || marks10 === "80-100") {
-        scholarship = "SVMCM - With Year Gap Certificate";
-        docList = "1) 10th marksheet<br>2) 12th marksheet (optional)<br>3) College admission receipt<br>4) BDO income certificate<br>5) Year gap certificate (if needed)";
-      } else if (marks10 === "50-59") {
+      } else if (marks12 === "50-59") {
         if (religion !== "hindu") {
           scholarship = "Aikyashree";
           docList = "1) Bank account details<br>2) 10th marksheet";
-        } else if (category === "sc" || category === "st" || category === "obc") {
+        } else {
+          if (category === "sc" || category === "st" || category === "obc") {
+            scholarship = "OASIS Scholarship";
+            docList = "1) 10th marksheet<br>2) College admission receipt<br>3) BDO income certificate<br>4) Residential proof - Aadhar card";
+          }
+        }
+      }
+    } else if (admission === "1st") {
+      if (gender === "female") {
+        if (marks10 === "80-100" || marks12 === "80-100") {
+          scholarship = "NSP-Pragati";
+        } else if (marks10 === "60-79") {
+          scholarship = "SVMCM - With Year Gap Certificate";
+          docList = "1) 10th marksheet<br>2) 12th marksheet (optional)<br>3) College admission receipt<br>4) BDO income certificate<br>5) Year gap certificate (if needed)";
+        } else if (marks10 === "50-59" && (category === "sc" || category === "st" || category === "obc")) {
           scholarship = "OASIS Scholarship";
           docList = "1) 10th marksheet<br>2) College admission receipt<br>3) BDO income certificate<br>4) Residential proof - Aadhar card";
         }
+      } else if (gender === "male") {
+        if (marks10 === "60-79" || marks10 === "80-100") {
+          scholarship = "SVMCM - With Year Gap Certificate";
+          docList = "1) 10th marksheet<br>2) 12th marksheet (optional)<br>3) College admission receipt<br>4) BDO income certificate<br>5) Year gap certificate (if needed)";
+        } else if (marks10 === "50-59") {
+          if (religion !== "hindu") {
+            scholarship = "Aikyashree";
+            docList = "1) Bank account details<br>2) 10th marksheet";
+          } else if (category === "sc" || category === "st" || category === "obc") {
+            scholarship = "OASIS Scholarship";
+            docList = "1) 10th marksheet<br>2) College admission receipt<br>3) BDO income certificate<br>4) Residential proof - Aadhar card";
+          }
+        }
       }
     }
-  }
 
-  result.textContent = `Most suitable scholarship: ${scholarship}`;
-  documents.innerHTML = docList ? `<br><strong>Required Documents:</strong><br>${docList}` : "";
-}
+    result.textContent = `Most suitable scholarship: ${scholarship}`;
+    documents.innerHTML = docList ? `<br><strong>Required Documents:</strong><br>${docList}` : "";
+  }
 </script>
 
 </body>
