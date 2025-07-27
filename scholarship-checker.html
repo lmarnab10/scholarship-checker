@@ -233,7 +233,11 @@
         } else if (marks10 === "60-79") {
           scholarship = "SVMCM - With Year Gap Certificate";
           docList = "1) 10th marksheet<br>2) 12th marksheet (optional)<br>3) College admission receipt<br>4) BDO income certificate<br>5) Year gap certificate (if needed)";
-        } else if (marks10 === "50-59" && (category === "sc" || category === "st" || category === "obc")) {
+        }else if (marks10 === "50-59") {
+          if (religion !== "hindu") {
+            scholarship = "Aikyashree";
+            docList = "1) Bank account details<br>2) 10th marksheet";
+          } else if (marks10 === "50-59" && (category === "sc" || category === "st" || category === "obc")) {
           scholarship = "OASIS Scholarship";
           docList = "1) 10th marksheet<br>2) College admission receipt<br>3) BDO income certificate<br>4) Residential proof - Aadhar card";
         }
